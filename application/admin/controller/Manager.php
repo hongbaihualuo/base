@@ -6,7 +6,6 @@ use app\admin\model\ManageGroup;
 use app\admin\model\Menu;
 use app\admin\service\ManagerService;
 use think\cache\driver\Redis;
-use think\Session;
 
 class Manager extends Common
 {
@@ -168,6 +167,17 @@ class Manager extends Common
         $smanager = new ManagerService();
         $data = $smanager->group_delete();
         die($data);
+    }
+
+    /**
+     * 管理员日志 （model层）
+     */
+    public function log()
+    {
+        $smanage = new ManagerService();
+
+        $this->assign('data', $smanage->log_search());
+        return $this->fetch();
     }
 
 

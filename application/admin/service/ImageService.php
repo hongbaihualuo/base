@@ -22,6 +22,7 @@ class ImageService extends Common {
         //获取文件的全路径
         $imgurl = substr(str_replace('\\', '/', $info->getPathname()),1);
 
+        $this->add_log(1,'上传文件',"文件路径:".$imgurl);
         return $this->cjson(0,$imgurl);
     }
 }

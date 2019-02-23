@@ -29,7 +29,7 @@ class ManageGroup extends Model
      */
     public function get_group_count($where='')
     {
-        return $this->where($where)->count();
+        return $this->alias('a')->where($where)->count();
     }
 
 }

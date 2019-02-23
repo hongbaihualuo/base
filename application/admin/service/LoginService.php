@@ -25,6 +25,8 @@ class LoginService extends Common {
         Session::set('manage',$check[0]['manage']);
         Session::set('right',explode(',',$check[0]['manage_group_right']));
 
+        $this->add_log(0,'登录',"登录");
+
         return $this->cjson(0,'',url('index/index'));
     }
 }

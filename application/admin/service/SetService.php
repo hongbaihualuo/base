@@ -36,6 +36,7 @@ class SetService extends Common {
         $system = new System();
 
         if ($system->save($data,['system_id' => 1])) {
+            $this->add_log(2,'基础设置',"基础设置");
             return $this->cjson(0,'');
         } else {
             return $this->cjson(1,'更新失败');
@@ -59,6 +60,7 @@ class SetService extends Common {
             'orderby'  => input('orderby')
         ];
 
+        if (!$data['carousel_title'] ) return $this->cjson(1,'名称不能为空！');
         if (!$data['carousel_img'] ) return $this->cjson(1,'轮播图不能为空！');
         if (!is_numeric($data['carousel_type']) || $data['carousel_type']>2 ) return $this->cjson(1,'类型错误！');
 
@@ -85,7 +87,9 @@ class SetService extends Common {
     public function carousel_delete()
     {
         $id = input('id/a');
+
         if (Carousel::destroy($id)) {
+            $this->add_log(3,'轮播图删除',"删除轮播图");
             return $this->cjson(0,'');
         } else {
             return $this->cjson(1,'删除失败');
@@ -136,6 +140,7 @@ class SetService extends Common {
     {
         $id = input('id/a');
         if (Seo::destroy($id)) {
+            $this->add_log(3,'seo删除',"删除seo信息");
             return $this->cjson(0,'');
         } else {
             return $this->cjson(1,'删除失败');

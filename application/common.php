@@ -15,12 +15,13 @@
  * @param $mobile
  * @return bool
  */
-function check_phone($mobile){
-    if(preg_match("/^[1[34578]\d{9}]$/", $mobile)){
+function check_phone($mobile)
+{
+    if (preg_match("/^[1[34578]\d{9}]$/", $mobile)) {
         return true;
     }
 
-    if(preg_match("/^[\d\-]*$/", $mobile)){
+    if (preg_match("/^[\d\-]*$/", $mobile)) {
         return true;
     }
     return false;
@@ -31,9 +32,10 @@ function check_phone($mobile){
  * @param $email
  * @return bool
  */
-function check_email($email){
-    $pattern="/([a-z0-9]*[-_.]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[.][a-z]{2,3}([.][a-z]{2})?/i";
-    if(preg_match($pattern,$email)){
+function check_email($email)
+{
+    $pattern = "/([a-z0-9]*[-_.]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[.][a-z]{2,3}([.][a-z]{2})?/i";
+    if (preg_match($pattern, $email)) {
         return true;
     }
     return false;

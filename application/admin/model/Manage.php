@@ -13,7 +13,7 @@ class Manage extends Model
     public function get_manager($where='',$num=6,$page=0,$field='*,mg.manage_group_name,mg.manage_group_right')
     {
         $this->field($field)->alias('a')
-            ->join('ac_manage_group mg','a.manage_group_id = mg.manage_group_id')
+            ->join('ac_manage_group mg','a.manage_group_id = mg.manage_group_id','LEFT')
             ->where($where)->order('a.manage_id desc');
 
         if (!$page) {
@@ -31,7 +31,7 @@ class Manage extends Model
      */
     public function get_manager_count($where)
     {
-        return $this->alias('a')->where($where)->count();
+        return $this ->join('ac_manage_group mg','a.manage_group_id = mg.manage_group_id','LEFT')->alias('a')->where($where)->count();
     }
 
 }

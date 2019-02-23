@@ -4,6 +4,7 @@ namespace app\admin\service;
 
 use app\admin\model\Manage;
 use app\admin\model\ManageGroup;
+use app\admin\model\ManageLog;
 use think\image\Exception;
 
 class ManagerService extends Common {
@@ -47,9 +48,14 @@ class ManagerService extends Common {
 
         if (!$data['manage'] ) return $this->cjson(1,'账号不能为空！');
         if (!is_numeric($data['manage_group_id']) ) return $this->cjson(1,'组别错误！');
-        if (input('cpassword') != input('password')) return $this->cjson(1,'两次密码输入不一致！');
+        if (!$id && input('cpassword') != input('password')) return $this->cjson(1,'两次密码输入不一致！');
+
+
+
 
         $mange = new Manage();
+        $check_manage = $mange->get_manager("manage = '{$data['manage']}'",1);
+        if (count($check_manage)>0 ) return $this->cjson(1,'此账号已存在！');
 
         if ( input('password') ) $data['password'] = password_hash(input('password'), PASSWORD_DEFAULT);
         if($id){
@@ -57,17 +63,18 @@ class ManagerService extends Common {
                 $check = ManageGroup::get($data['manage_group_id']);
                 if ($check['status'] == 1) return $this->cjson(1,'所在组别已停用，请先启用对应组别！');
             }
-            $result = $mange->save($data,['manage_id' => $id]);
+            if ($mange->save($data,['manage_id' => $id])) {
+                $this->add_log(2,'管理员信息修改',"修改了{$data['manage']}的信息");
+                return $this->cjson(0,'');
+            }
         } else {
             $data['add_time'] = date('Y-m-d H:i:s');
-            $result = $mange->save($data);
+            if ($mange->save($data)) {
+                $this->add_log(1,'添加管理员',"添加了{$data['manage']}管理员");
+                return $this->cjson(0,'');
+            }
         }
-
-        if ($result) {
-            return $this->cjson(0,'');
-        } else {
-            return $this->cjson(1,'执行失败');
-        }
+        return $this->cjson(1,'执行失败');
 
     }
 
@@ -78,7 +85,11 @@ class ManagerService extends Common {
     {
         $id = input('id/a');
         if($id == 1) return $this->cjson(1,'初始管理员禁止删除');
+        $check = Manage::get($id);
+        if (isset($check['manage']))  return $this->cjson(1,'未找到该管理员');
+
         if (Manage::destroy($id)) {
+            $this->add_log(3,'删除管理员',"删除了管理员{$check['manage']}");
             return $this->cjson(0,'');
         } else {
             return $this->cjson(1,'删除失败');
@@ -108,9 +119,7 @@ class ManagerService extends Common {
             $mange->startTrans();
             $mangeGroup->startTrans();
             try{
-                if ($data['status'] == 1) {
-                    $mange->save(['status'=>1],['manage_group_id'=>$id]);
-                }
+                $mange->save(['status'=>1],['manage_group_id'=>$id]);
                 $mangeGroup->save($data,['manage_group_id' => $id]);
                 $mange->commit();
                 $mangeGroup->commit();
@@ -120,16 +129,17 @@ class ManagerService extends Common {
                 $mangeGroup->rollback();
                 $result = false;
             }
-
+            if ($result) {
+                $this->add_log(2,'修改管理组',"修改的管理组为：".$data['manage_group_name']);
+                return $this->cjson(0,'');
+            }
         } else {
-            $result = $mangeGroup->save($data);
+            if ($mangeGroup->save($data)) {
+                $this->add_log(1,'添加管理组',"添加的管理组为：".$data['manage_group_name']);
+                return $this->cjson(0,'');
+            };
         }
-
-        if ($result) {
-            return $this->cjson(0,'');
-        } else {
-            return $this->cjson(1,'执行失败');
-        }
+        return $this->cjson(1,'执行失败');
 
     }
 
@@ -159,6 +169,8 @@ class ManagerService extends Common {
         }
 
         if ($result) {
+            $check = $mangeGroup->get($id);
+            $this->add_log(3,'删除管理组',"删除的管理组为：".$check['manage_group_name']);
             return $this->cjson(0,'');
         } else {
             return $this->cjson(1,'删除失败');
@@ -184,5 +196,34 @@ class ManagerService extends Common {
         } else {
             return $this->cjson(1,'设置失败');
         }
+    }
+
+    /**
+     * 管理员日志搜索列表
+     */
+    public function log_search(){
+
+        $search['account'] = input('account');
+        $search['realname'] = input('realname');
+        $search['start'] = input('start');
+        $search['end'] = input('end');
+        $search['type'] = input('type');
+        var_dump($search['type']);
+        $where = '1 = 1';
+        if ($search['account']) $where .= " and m.manage = '{$search['account']}'";
+        if ($search['realname']) $where .= " and m.real_name = '{$search['realname']}'";
+        if ($search['start']) $where .= " and a.add_time > '{$search['start']}'";
+        if ($search['end']) $where .= " and a.add_time <= '{$search['end']}'";
+        if (is_numeric($search['type'])) $where .= " and a.type = '{$search['type']}'";
+
+        $manageLog = new ManageLog();
+        $list = $manageLog->get_log($where,10,1);
+
+        $data['list'] = $list;
+        $data['page'] = $list->render();
+        $data['count'] = $manageLog->get_log_count($where);
+        $data['search'] = $search;
+
+        return $data;
     }
 }
