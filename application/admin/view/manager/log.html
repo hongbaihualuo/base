@@ -8,10 +8,10 @@
             <input class="layui-input" placeholder="截止日" value="{$data['search']['end']}" name="end" id="end">
             <input type="text" name="account"  placeholder="请输入账号" value="{$data['search']['account']}" autocomplete="off" class="layui-input">
             <input type="text" name="realname"  placeholder="请输入姓名" value="{$data['search']['realname']}" autocomplete="off" class="layui-input">
-            <div class="layui-input-inline mt-3">
+            <div data-id="{$data['search']['type']}" class="layui-input-inline mt-3">
                 <select name="type" lay-verify="type" lay-search="">
-                    <option value="" selected>请选择</option>
-                    <option value="0" {if condition="$data['search']['type'] == 0"} selected {/if}>登录</option>
+                    <option value="" >请选择</option>
+                    <option value="0" {if condition="is_numeric($data['search']['type']) && $data['search']['type'] == 0"} selected {/if}>登录</option>
                     <option value="1" {if condition="$data['search']['type'] == 1"} selected {/if}>添加</option>
                     <option value="2" {if condition="$data['search']['type'] == 2"} selected {/if}>修改</option>
                     <option value="3" {if condition="$data['search']['type'] == 3"} selected {/if}>删除</option>

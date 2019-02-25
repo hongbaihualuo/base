@@ -17,7 +17,7 @@ class ManageGroup extends Model
         if (!$page) {
             $list = $this->limit($num)->select();
         } else {
-            $list = $this->paginate($num);
+            $list = $this->paginate($num,false,['query'=>$_REQUEST]);
         }
 
         return $list;

@@ -4,7 +4,7 @@
 <div class="x-body">
     <xblock>
         <button mark="delall" url="{:url('set/carousel_delete')}" class="layui-btn layui-btn-danger"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加轮播图','{:url("set/carousel_add")}',800,600)"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加轮播图','{:url("set/carousel_add")}',500,600)"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：{$count} 条</span>
     </xblock>
     <table class="layui-table">
@@ -32,7 +32,11 @@
             <td>{$v.carousel_desc}</td>
             <td><img src="{$v.carousel_img}"></td>
             <td>{$v.carousel_url}</td>
-            <td>{if condition="$v['is_show'] == 0"}显示{else /}不显示{/if}</td>
+            <td>
+                <form class="layui-form">
+                    <input type="checkbox" name="is_show"  data-id="{$v.carousel_id}" lay-filter="is_show" lay-text="显示|隐藏" {if condition="$v['is_show'] == 0"}checked{/if} lay-skin="switch">
+                </form>
+            </td>
             <td>
                 {if condition="$v['carousel_type'] == 0"}
                 PC
@@ -43,7 +47,7 @@
                 {/if}
             </td>
             <td class="td-manage">
-                <a title="编辑"  onclick="x_admin_show('编辑','carousel_edit/id/{$v.carousel_id}',800,600)" href="javascript:;">
+                <a title="编辑"  onclick="x_admin_show('编辑','{:url("set/carousel_edit",["id"=>$v['carousel_id']])}',800,600)" href="javascript:;">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a mark="del" url="{:url('set/carousel_delete',['id'=>$v['carousel_id']])}" href="javascript:;">
@@ -58,5 +62,6 @@
 </div>
 <script>
     Common.del();
+    Common.onoff("is_show","{:url('set/carousel_edit')}");
 </script>
 {/block}

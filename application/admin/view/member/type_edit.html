@@ -4,11 +4,14 @@
 <div class="x-body">
     <form class="layui-form">
         <div class="layui-form-item">
+            <input type="hidden" name="id" lay-verify="id" value="{$detail.user_type_id}" >
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">
-                <span class="x-red">*</span>组名
+                <span class="x-red">*</span>类型名
             </label>
             <div class="layui-input-block">
-                <input type="text" maxlength="32" name="name" lay-verify="name" placeholder="管理组名" autocomplete="off" class="layui-input">
+                <input type="text" maxlength="32" name="name" lay-verify="name" placeholder="管理组名" value="{$detail.type_name}" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -16,7 +19,7 @@
                 描述
             </label>
             <div class="layui-input-block">
-                <input type="text" maxlength="200" name="desc" lay-verify="desc" placeholder="管理组描述" autocomplete="off" class="layui-input">
+                <input type="text" maxlength="200" name="desc" lay-verify="desc" placeholder="管理组描述" value="{$detail.desc}" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -24,8 +27,8 @@
                 是否启用
             </label>
             <div class="layui-input-block">
-                <input type="radio" name="status" lay-verify="status" value="0" title="启用" checked="">
-                <input type="radio" name="status" lay-verify="status" value="1" title="停用">
+                <input type="radio" name="status" lay-verify="status" value="0" title="启用" {if condition="$detail['status'] == 0"} checked="" {/if} />
+                <input type="radio" name="status" lay-verify="status" value="1" title="停用" {if condition="$detail['status'] == 1"} checked="" {/if} />
             </div>
         </div>
         <div class="layui-form-item">
@@ -37,6 +40,6 @@
     </form>
 </div>
 <script>
-    Common.form_sumbit('submit','{:url("manager/group_add")}');
+    Common.form_sumbit('submit','{:url("member/type_edit")}');
 </script>
 {/block}

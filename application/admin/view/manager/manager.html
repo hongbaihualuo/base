@@ -30,11 +30,9 @@
             <td>{$v.real_name}</td>
             <td>{$v.manage_group_name}</td>
             <td>
-                {if condition="$v['status'] == 0"}
-                <span class="x-green">正常</span>
-                {else /}
-                <span class="x-red">停用</span>
-                {/if}
+                <form class="layui-form" data="{$v['status']}">
+                    <input type="checkbox" name="status"  data-id="{$v.manage_id}" lay-filter="status" lay-text="启用|停用" {if condition="$v['status'] == 0"} checked {/if} lay-skin="switch">
+                </form>
             </td>
             <td class="td-manage">
                 <a title="编辑"  onclick="x_admin_show('编辑','{:url("manager/manager_edit",["id"=>$v["manage_id"]])}',450,500)" href="javascript:;">
@@ -52,5 +50,6 @@
 </div>
 <script>
     Common.del();
+    Common.onoff("status","{:url('manager/manager_edit')}");
 </script>
 {/block}

@@ -61,6 +61,11 @@ class Set extends Common
      */
     public function carousel_add()
     {
+        if(request()->isAjax()) {
+            $sset = new SetService();
+            $data = $sset->carousel_save();
+            die($data);
+        }
         return $this->fetch();
     }
 
@@ -69,22 +74,23 @@ class Set extends Common
      */
     public function carousel_edit()
     {
+
+        if(request()->isAjax()) {
+            $sset = new SetService();
+            if(input('onoff')) {
+                $data = $sset->carousel_onoff();
+            } else {
+                $data = $sset->carousel_save();
+            }
+            die($data);
+        }
+
         $id = input('id');
         $data = Carousel::get($id);
         if (!$data) $this->error('ID错误');
 
         $this->assign('detail',$data);
         return $this->fetch();
-    }
-
-    /**
-     * 轮播图添加，修改逻辑（service层）
-     */
-    public function carousel_change()
-    {
-        $sset = new SetService();
-        $data = $sset->carousel_save();
-        die($data);
     }
 
     /**
@@ -119,6 +125,11 @@ class Set extends Common
      */
     public function seo_add()
     {
+        if (request()->isAjax()) {
+            $sset = new SetService();
+            $data = $sset->seo_save();
+            die($data);
+        }
         return $this->fetch();
     }
 
@@ -127,22 +138,17 @@ class Set extends Common
      */
     public function seo_edit()
     {
+        if (request()->isAjax()) {
+            $sset = new SetService();
+            $data = $sset->seo_save();
+            die($data);
+        }
         $id = input('id');
         $data = Seo::get($id);
         if (!$data) $this->error('ID错误');
 
         $this->assign('detail',$data);
         return $this->fetch();
-    }
-
-    /**
-     * seo添加，修改逻辑（service层）
-     */
-    public function seo_change()
-    {
-        $sset = new SetService();
-        $data = $sset->seo_save();
-        die($data);
     }
 
     /**

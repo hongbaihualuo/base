@@ -26,6 +26,11 @@ class Manager extends Common
      */
     public function manager_add()
     {
+        if (request()->isAjax()) {
+            $smanager = new ManagerService();
+            $data = $smanager->manager_save();
+            die($data);
+        }
         $manageGroup = new ManageGroup();
         $group = $manageGroup->get_group('a.status = 0', 100);
 
@@ -38,6 +43,17 @@ class Manager extends Common
      */
     public function manager_edit()
     {
+        if (request()->isAjax()) {
+            $smanager = new ManagerService();
+            if (input('onoff')) {
+                $data = $smanager->manage_onoff();
+            } else {
+                $data = $smanager->manager_save();
+            }
+
+            die($data);
+        }
+
         $id = input('id');
         $data = Manage::get($id);
         if (!$data) $this->error('ID错误');
@@ -48,16 +64,6 @@ class Manager extends Common
         $this->assign('group', $group);
         $this->assign('detail', $data);
         return $this->fetch();
-    }
-
-    /**
-     * 管理员添加，修改逻辑（service层）
-     */
-    public function manager_change()
-    {
-        $smanager = new ManagerService();
-        $data = $smanager->manager_save();
-        die($data);
     }
 
     /**
@@ -93,6 +99,11 @@ class Manager extends Common
      */
     public function group_add()
     {
+        if (request()->isAjax()) {
+            $smanager = new ManagerService();
+            $data = $smanager->group_save();
+            die($data);
+        }
         $manageGroup = new ManageGroup();
         $group = $manageGroup->get_group('a.status = 0', 100);
 
@@ -105,6 +116,12 @@ class Manager extends Common
      */
     public function group_edit()
     {
+        if (request()->isAjax()) {
+            $smanager = new ManagerService();
+            $data = $smanager->group_save();
+            die($data);
+        }
+
         $id = input('id');
         $manageGroup = new ManageGroup();
 
@@ -146,16 +163,6 @@ class Manager extends Common
     {
         $smanager = new ManagerService();
         $data = $smanager->group_right_save();
-        die($data);
-    }
-
-    /**
-     * 管理组添加，修改逻辑（service层）
-     */
-    public function group_change()
-    {
-        $smanager = new ManagerService();
-        $data = $smanager->group_save();
         die($data);
     }
 

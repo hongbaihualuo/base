@@ -20,7 +20,7 @@ class Common extends Controller{
         $this->assign('menu',$menuInfo);
 
         if (!Session::get('manage')) {
-            if ($this->request->isAjax()) {
+            if (request()->isAjax()) {
                 die(json_encode(["code"=>1,"msg"=>"请重新登录","url"=>url("login/index")]));
             } else {
                 return $this->redirect(url("login/index"));

@@ -3,7 +3,7 @@
 {block name="content"}
 <div class="x-body">
     <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加管理组','{:url("manager/group_add")}',400,400,true)"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加管理组','{:url("manager/group_add")}',400,300)"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：{$count} 条</span>
     </xblock>
     <table class="layui-table">
@@ -34,7 +34,7 @@
                 </button>
             </td>
             <td class="td-manage">
-                <a title="编辑"  onclick="x_admin_show('编辑','{:url("manager/group_edit",["id"=>$v["manage_group_id"]])}',400,400)" href="javascript:;">
+                <a title="编辑"  onclick="x_admin_show('编辑','{:url("manager/group_edit",["id"=>$v["manage_group_id"]])}',400,300)" href="javascript:;">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a mark="del" title="若删除此组，所对应的所有管理员都将被删除，请谨慎操作！" url="{:url('manager/group_delete',['id'=>$v['manage_group_id']])}" href="javascript:;">

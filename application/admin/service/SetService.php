@@ -82,6 +82,22 @@ class SetService extends Common {
     }
 
     /**
+     * 轮播图状态切换
+     */
+    public function carousel_onoff()
+    {
+        $id = input('id');
+        $show = input('status') == 0?input('status'):1;
+        $carousel = new Carousel();
+
+        if($carousel->save(['is_show'=>$show],['carousel_id'=>$id])) {
+            return $this->cjson(0,'');
+        } else {
+            return $this->cjson(1,'执行失败');
+        }
+    }
+
+    /**
      * 轮播图批量删除
      */
     public function carousel_delete()

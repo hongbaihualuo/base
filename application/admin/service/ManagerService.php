@@ -51,11 +51,9 @@ class ManagerService extends Common {
         if (!$id && input('cpassword') != input('password')) return $this->cjson(1,'两次密码输入不一致！');
 
 
-
-
         $mange = new Manage();
         $check_manage = $mange->get_manager("manage = '{$data['manage']}'",1);
-        if (count($check_manage)>0 ) return $this->cjson(1,'此账号已存在！');
+        if (!$id && count($check_manage)>0 ) return $this->cjson(1,'此账号已存在！');
 
         if ( input('password') ) $data['password'] = password_hash(input('password'), PASSWORD_DEFAULT);
         if($id){
@@ -76,6 +74,27 @@ class ManagerService extends Common {
         }
         return $this->cjson(1,'执行失败');
 
+    }
+
+    /**
+     * 管理员状态切换
+     */
+    public function manage_onoff()
+    {
+        $id = input('id');
+        $status = input('status') == 0 ? input('status') : 1;
+        $manage = new Manage();
+        if ($status == 0) {
+            $data = $manage->get($id);
+            $check = ManageGroup::get($data['manage_group_id']);
+            if ($check['status'] == 1) return $this->cjson(1,'所在组别已停用，请先启用对应组别！');
+        }
+
+        if($manage->save(['status'=>$status],['manage_id'=>$id])) {
+            return $this->cjson(0,'');
+        } else {
+            return $this->cjson(1,'执行失败');
+        }
     }
 
     /**
@@ -119,7 +138,7 @@ class ManagerService extends Common {
             $mange->startTrans();
             $mangeGroup->startTrans();
             try{
-                $mange->save(['status'=>1],['manage_group_id'=>$id]);
+                $mange->save(['status'=>$data['status']],['manage_group_id'=>$id]);
                 $mangeGroup->save($data,['manage_group_id' => $id]);
                 $mange->commit();
                 $mangeGroup->commit();
@@ -154,6 +173,8 @@ class ManagerService extends Common {
         $mange = new Manage();
         $mangeGroup = new ManageGroup();
 
+        $check = $mangeGroup->get($id);
+
         $mange->startTrans();
         $mangeGroup->startTrans();
         try{
@@ -169,7 +190,6 @@ class ManagerService extends Common {
         }
 
         if ($result) {
-            $check = $mangeGroup->get($id);
             $this->add_log(3,'删除管理组',"删除的管理组为：".$check['manage_group_name']);
             return $this->cjson(0,'');
         } else {
@@ -208,7 +228,7 @@ class ManagerService extends Common {
         $search['start'] = input('start');
         $search['end'] = input('end');
         $search['type'] = input('type');
-        var_dump($search['type']);
+
         $where = '1 = 1';
         if ($search['account']) $where .= " and m.manage = '{$search['account']}'";
         if ($search['realname']) $where .= " and m.real_name = '{$search['realname']}'";

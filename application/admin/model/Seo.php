@@ -12,7 +12,7 @@ class Seo extends Model
      */
     public function get_seo()
     {
-        return  $this->order('seo_id desc')->paginate(10,false);
+        return  $this->order('seo_id desc')->paginate(10,false,['query'=>$_REQUEST]);
     }
 
     /**

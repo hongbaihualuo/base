@@ -74,12 +74,12 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"></label>
-            <button  class="layui-btn" lay-filter="carousel_submit" lay-submit="">  保存  </button>
+            <button  class="layui-btn" lay-filter="submit" lay-submit="">  保存  </button>
         </div>
     </form>
 </div>
 <script>
     Common.upload_one('#img');
-    Common.form_sumbit('carousel_submit','{:url("set/carousel_change")}');
+    Common.form_sumbit('submit','{:url("set/carousel_edit")}');
 </script>
 {/block}

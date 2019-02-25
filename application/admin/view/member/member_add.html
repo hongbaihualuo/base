@@ -13,10 +13,15 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">
-                姓名
+                <span class="x-red">*</span>类型
             </label>
             <div class="layui-input-block">
-                <input type="text" maxlength="32" name="name" lay-verify="name" placeholder="真实姓名" autocomplete="off" class="layui-input">
+                <select name="type" lay-verify="type" lay-search="">
+                    <option value="">请选择</option>
+                    {volist name='type' id='v'}
+                    <option value="{$v.user_type_id}">{$v.type_name}</option>
+                    {/volist}
+                </select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -37,14 +42,26 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">
-                管理组
+                手机号
             </label>
             <div class="layui-input-block">
-                <select name="group" lay-verify="group" lay-search="">
-                    {volist name='group' id='v'}
-                        <option value="{$v.manage_group_id}">{$v.manage_group_name}</option>
-                    {/volist}
-                </select>
+                <input type="text" maxlength="32" name="mobile" lay-verify="mobile" placeholder="手机号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                余额
+            </label>
+            <div class="layui-input-block">
+                <input type="number" min="1" name="money" lay-verify="money" placeholder="用户余额" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                积分
+            </label>
+            <div class="layui-input-block">
+                <input type="number" min="1" name="score" lay-verify="score" placeholder="用户积分" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -65,6 +82,6 @@
     </form>
 </div>
 <script>
-    Common.form_sumbit('submit','{:url("manager/manager_add")}');
+    Common.form_sumbit('submit','{:url("member/member_add")}');
 </script>
 {/block}
