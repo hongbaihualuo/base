@@ -3,18 +3,16 @@ namespace app\admin\model;
 
 use think\Model;
 
-class VideoComment extends Model
+class CommentTemplet extends Model
 {
 
     /**
-     * 获取用户
+     * 获取评论模板
      * @return false|\PDOStatement|string|\think\Collection
      */
-    public function get_Comment($where='',$num=6,$page=0,$field='a.*,u.username,v.title')
+    public function get_templet($where='',$num=6,$page=0,$field='a.*')
     {
         $this->field($field)->alias('a')
-            ->join('ac_user u','a.user_id = u.user_id','LEFT')
-            ->join('ac_video v','a.video_id = v.video_id','LEFT')
             ->where($where)->order('a.id desc');
 
         if (!$page) {
@@ -27,14 +25,12 @@ class VideoComment extends Model
     }
 
     /**
-     * 获取总记录数
+     * 获取评论模板总记录数
      * @return int|string
      */
-    public function get_comment_count($where)
+    public function get_templet_count($where)
     {
         $count = $this->alias('a')
-            ->join('ac_user u','a.user_id = u.user_id','LEFT')
-            ->join('ac_video v','a.video_id = v.video_id','LEFT')
             ->where($where)->count();
         return $count;
     }

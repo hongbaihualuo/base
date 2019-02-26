@@ -249,7 +249,8 @@ return [
 
     //上传文件路径
     'upload_path'              => [
-        'img'       => './uploads/img'
+        'img'       => './uploads/img',
+        'video'       => './uploads/video'
     ]
 
 ];

@@ -17,6 +17,25 @@ Common = {
             });
         })
     },
+    upload_video_one : function(id){
+        var url = $(id).attr('url');
+        layui.use('upload', function() {
+            var upload = layui.upload;
+            upload.render({
+                elem: id
+                , url: url
+                , accept: 'video'
+                , done: function (res) {
+                    if (res.code > 0) {
+                        return layer.msg('上传失败');
+                    }else{
+                        $('#demo1').attr('src',res.msg);
+                        $('input[name="'+id.substr(1)+'"]').val(res.msg);
+                    }
+                }
+            });
+        })
+    },
     form_sumbit : function(lay,url){
         layui.use('form',function(){
             var form = layui.form

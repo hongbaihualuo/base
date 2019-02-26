@@ -11,7 +11,7 @@
  Target Server Version : 50553
  File Encoding         : 65001
 
- Date: 26/02/2019 11:49:10
+ Date: 26/02/2019 17:22:36
 */
 
 SET NAMES utf8mb4;
@@ -39,6 +39,25 @@ CREATE TABLE `ac_carousel`  (
 -- ----------------------------
 INSERT INTO `ac_carousel` VALUES (10, '首页', '首页', '/uploads/img/20190222/e2203e355c7dd6234040ea8418f41a57.jpg', '', 1, 1, 2, '2019-02-22 18:32:50');
 INSERT INTO `ac_carousel` VALUES (11, '首页1', '', '/uploads/img/20190225/5a185bf0fbbfe6da6012253265841d97.jpg', '', 0, 0, 3, '2019-02-25 16:39:06');
+
+-- ----------------------------
+-- Table structure for ac_comment_templet
+-- ----------------------------
+DROP TABLE IF EXISTS `ac_comment_templet`;
+CREATE TABLE `ac_comment_templet`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增',
+  `content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '评论内容',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of ac_comment_templet
+-- ----------------------------
+INSERT INTO `ac_comment_templet` VALUES (4, '挺好看的');
+INSERT INTO `ac_comment_templet` VALUES (3, '好看');
+INSERT INTO `ac_comment_templet` VALUES (5, '看我我的评论是你的幸运也是我的幸运');
+INSERT INTO `ac_comment_templet` VALUES (6, '哈哈哈哈');
+INSERT INTO `ac_comment_templet` VALUES (7, '全是假的啊');
 
 -- ----------------------------
 -- Table structure for ac_manage
@@ -72,12 +91,12 @@ CREATE TABLE `ac_manage_group`  (
   `manage_group_right` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限',
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0 正常 1 停用',
   PRIMARY KEY (`manage_group_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of ac_manage_group
 -- ----------------------------
-INSERT INTO `ac_manage_group` VALUES (1, '超级管理员', '超级管理员', '11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39', 0);
+INSERT INTO `ac_manage_group` VALUES (1, '超级管理员', '超级管理员', '11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42', 0);
 INSERT INTO `ac_manage_group` VALUES (3, '测试', '测试专员', '1,2,3,11,12,16,21', 0);
 
 -- ----------------------------
@@ -93,7 +112,7 @@ CREATE TABLE `ac_manage_log`  (
   `type` tinyint(1) NOT NULL DEFAULT 0 COMMENT '类型 0 登录 1 添加 2 修改 3 删除 4 其他',
   `add_time` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`manage_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of ac_manage_log
@@ -146,6 +165,34 @@ INSERT INTO `ac_manage_log` VALUES (45, '登录', '登录', 1, '127.0.0.1', 0, '
 INSERT INTO `ac_manage_log` VALUES (46, '管理员信息修改', '修改了taotao的信息', 1, '127.0.0.1', 2, '2019-02-26 11:29:10');
 INSERT INTO `ac_manage_log` VALUES (47, '删除管理组', '删除的管理组为：测试2', 1, '127.0.0.1', 3, '2019-02-26 11:29:17');
 INSERT INTO `ac_manage_log` VALUES (48, '登录', '登录', 1, '127.0.0.1', 0, '2019-02-26 11:32:17');
+INSERT INTO `ac_manage_log` VALUES (49, '登录', '登录', 1, '127.0.0.1', 0, '2019-02-26 11:54:23');
+INSERT INTO `ac_manage_log` VALUES (50, '上传文件', '文件路径:/uploads/img/20190226/3d76e585e4fd975c009bdb8082c2f24f.mp4', 1, '127.0.0.1', 1, '2019-02-26 14:46:32');
+INSERT INTO `ac_manage_log` VALUES (51, '上传文件', '文件路径:/uploads/img/20190226/76aa23da0f80bdf1376b5548dfb3b147.mp4', 1, '127.0.0.1', 1, '2019-02-26 14:53:03');
+INSERT INTO `ac_manage_log` VALUES (52, '上传文件', '文件路径:/uploads/img/20190226/cf4482fe1207aa9f115b7507e7916625.mp4', 1, '127.0.0.1', 1, '2019-02-26 14:54:22');
+INSERT INTO `ac_manage_log` VALUES (53, '上传文件', '文件路径:/uploads/video/20190226/2972d10406b37a2fb63a4389366a5fe1.mp4', 1, '127.0.0.1', 1, '2019-02-26 15:07:44');
+INSERT INTO `ac_manage_log` VALUES (54, '添加视频', '添加了测试视频', 1, '127.0.0.1', 1, '2019-02-26 15:08:56');
+INSERT INTO `ac_manage_log` VALUES (55, '添加视频', '添加了测试视频', 1, '127.0.0.1', 1, '2019-02-26 15:21:23');
+INSERT INTO `ac_manage_log` VALUES (56, '删除视频', '删除视频', 1, '127.0.0.1', 3, '2019-02-26 15:21:36');
+INSERT INTO `ac_manage_log` VALUES (57, '添加视频', '添加了测试视频', 1, '127.0.0.1', 1, '2019-02-26 15:21:51');
+INSERT INTO `ac_manage_log` VALUES (58, '删除视频', '删除视频', 1, '127.0.0.1', 3, '2019-02-26 15:23:04');
+INSERT INTO `ac_manage_log` VALUES (59, '视频修改', '修改了测试的信息', 1, '127.0.0.1', 2, '2019-02-26 15:23:10');
+INSERT INTO `ac_manage_log` VALUES (60, '视频修改', '修改了测试的信息', 1, '127.0.0.1', 2, '2019-02-26 15:23:23');
+INSERT INTO `ac_manage_log` VALUES (61, '视频修改', '修改了测试的信息', 1, '127.0.0.1', 2, '2019-02-26 15:27:08');
+INSERT INTO `ac_manage_log` VALUES (62, '修改用户类型', '修改的用户类型为：普通用户', 1, '127.0.0.1', 2, '2019-02-26 16:04:08');
+INSERT INTO `ac_manage_log` VALUES (63, '管理员信息修改', '修改了lolicc的信息', 1, '127.0.0.1', 2, '2019-02-26 16:04:20');
+INSERT INTO `ac_manage_log` VALUES (64, '管理员信息修改', '修改了xlolic的信息', 1, '127.0.0.1', 2, '2019-02-26 16:04:25');
+INSERT INTO `ac_manage_log` VALUES (65, '管理员信息修改', '修改了lolicc的信息', 1, '127.0.0.1', 2, '2019-02-26 16:04:30');
+INSERT INTO `ac_manage_log` VALUES (66, '管理员信息修改', '修改了lolicc的信息', 1, '127.0.0.1', 2, '2019-02-26 16:05:46');
+INSERT INTO `ac_manage_log` VALUES (67, '管理员信息修改', '修改了lolicc的信息', 1, '127.0.0.1', 2, '2019-02-26 16:07:51');
+INSERT INTO `ac_manage_log` VALUES (68, '管理员信息修改', '修改了xlolic的信息', 1, '127.0.0.1', 2, '2019-02-26 16:08:01');
+INSERT INTO `ac_manage_log` VALUES (69, '管理员信息修改', '修改了lolicc的信息', 1, '127.0.0.1', 2, '2019-02-26 16:10:11');
+INSERT INTO `ac_manage_log` VALUES (70, '管理员信息修改', '修改了xlolic的信息', 1, '127.0.0.1', 2, '2019-02-26 16:10:14');
+INSERT INTO `ac_manage_log` VALUES (71, '登录', '登录', 1, '127.0.0.1', 0, '2019-02-26 16:33:47');
+INSERT INTO `ac_manage_log` VALUES (72, '管理员信息修改', '修改了lolicc的信息', 1, '127.0.0.1', 2, '2019-02-26 17:04:42');
+INSERT INTO `ac_manage_log` VALUES (73, '管理员信息修改', '修改了xlolic的信息', 1, '127.0.0.1', 2, '2019-02-26 17:04:48');
+INSERT INTO `ac_manage_log` VALUES (74, '批量添加评论', '添加的视频为测试', 1, '127.0.0.1', 1, '2019-02-26 17:12:50');
+INSERT INTO `ac_manage_log` VALUES (75, '删除评论', '删除评论', 1, '127.0.0.1', 3, '2019-02-26 17:13:02');
+INSERT INTO `ac_manage_log` VALUES (76, '评论修改', '修改了测试的信息', 1, '127.0.0.1', 2, '2019-02-26 17:21:36');
 
 -- ----------------------------
 -- Table structure for ac_menu
@@ -161,7 +208,7 @@ CREATE TABLE `ac_menu`  (
   `is_show` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0 显示 1 不显示',
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0 启用 1 关闭',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ac_menu
@@ -201,10 +248,13 @@ INSERT INTO `ac_menu` VALUES (32, 31, '&#xe6fa;', '视频列表', 'videos', 'vid
 INSERT INTO `ac_menu` VALUES (33, 32, '', '视频添加', 'videos', 'videos_add', 1, 0);
 INSERT INTO `ac_menu` VALUES (34, 32, '', '视频修改', 'videos', 'videos_edit', 1, 0);
 INSERT INTO `ac_menu` VALUES (35, 32, '', '视频删除', 'videos', 'videos_delete', 1, 0);
-INSERT INTO `ac_menu` VALUES (36, 31, '&#xe6fa;', '评论管理', 'videos', 'comment', 0, 0);
+INSERT INTO `ac_menu` VALUES (36, 31, '&#xe6fa;', '评论列表', 'videos', 'comment', 0, 0);
 INSERT INTO `ac_menu` VALUES (37, 36, '', '评论修改', 'videos', 'comment_edit', 1, 0);
 INSERT INTO `ac_menu` VALUES (38, 36, '', '评论删除', 'videos', 'comment_delete', 1, 0);
-INSERT INTO `ac_menu` VALUES (39, 31, '&#xe6b2;', '评论添加', 'videos', 'comment_add', 0, 0);
+INSERT INTO `ac_menu` VALUES (39, 36, '', '评论添加', 'videos', 'comment_add', 1, 0);
+INSERT INTO `ac_menu` VALUES (40, 31, '&#xe6b2;', '评论模板', 'videos', 'templet', 0, 0);
+INSERT INTO `ac_menu` VALUES (41, 40, '', '模板添加', 'videos', 'templet_add', 1, 0);
+INSERT INTO `ac_menu` VALUES (42, 40, '', '模板删除', 'videos', 'templet_delete', 1, 0);
 
 -- ----------------------------
 -- Table structure for ac_seo
@@ -283,8 +333,8 @@ CREATE TABLE `ac_user`  (
 -- ----------------------------
 -- Records of ac_user
 -- ----------------------------
-INSERT INTO `ac_user` VALUES (1, 1, 'xlolic', '$2y$10$ZHfAGra1zY4sB3zjmGI9PeudjfA.msbLZmWQdFvfb0BrwKd82wDZW', '', '', '', 1, 0.00, 0.00, '2019-02-25 13:26:34', '127.0.0.1', '2019-02-25 13:26:34', '127.0.0.1', 0);
-INSERT INTO `ac_user` VALUES (15, 1, 'lolicc', '$2y$10$8.xrai6xDPpz8ZbwZvPwCeVrxz0OGo1KHWPif/Wss196V5PxSvDL6', '', '', '15255562449', 1, 0.00, 0.00, '2019-02-25 15:39:22', '127.0.0.1', '2019-02-25 15:39:22', '127.0.0.1', 0);
+INSERT INTO `ac_user` VALUES (1, 1, 'xlolic', '$2y$10$938SiKe2WXp7IocgQEbsfO3Qp0rVwqNAdNKwmozTckXsLtvdZzWIG', '', 'admin', '', 0, 0.00, 0.00, '2019-02-25 13:26:34', '127.0.0.1', '2019-02-25 13:26:34', '127.0.0.1', 1);
+INSERT INTO `ac_user` VALUES (15, 1, 'lolicc', '$2y$10$.Yihei7S1T4a2N5dEcXjTeeFwUnPqOpdWj2J7SPTCtPMo4qZ1n9Ly', '', 'admin', '15255562449', 0, 0.00, 0.00, '2019-02-25 15:39:22', '127.0.0.1', '2019-02-25 15:39:22', '127.0.0.1', 1);
 
 -- ----------------------------
 -- Table structure for ac_user_info
@@ -328,7 +378,7 @@ CREATE TABLE `ac_user_type`  (
 -- ----------------------------
 -- Records of ac_user_type
 -- ----------------------------
-INSERT INTO `ac_user_type` VALUES (1, '普通用户', '普通用户', 1);
+INSERT INTO `ac_user_type` VALUES (1, '普通用户', '普通用户', 0);
 
 -- ----------------------------
 -- Table structure for ac_video
@@ -345,20 +395,34 @@ CREATE TABLE `ac_video`  (
   `send_num` int(10) NOT NULL DEFAULT 0 COMMENT '转发数',
   `status` tinyint(1) NOT NULL COMMENT '0 启用 1 禁用',
   PRIMARY KEY (`video_id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of ac_video
+-- ----------------------------
+INSERT INTO `ac_video` VALUES (3, 1, '测试', '/uploads/video/20190226/2972d10406b37a2fb63a4389366a5fe1.mp4', 2, 3, '2019-02-26 15:27:08', 1, 0);
 
 -- ----------------------------
 -- Table structure for ac_video_comment
 -- ----------------------------
 DROP TABLE IF EXISTS `ac_video_comment`;
 CREATE TABLE `ac_video_comment`  (
-  `id` int(10) NOT NULL COMMENT '自增ID',
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `parent_id` int(10) NOT NULL COMMENT '父ID',
   `user_id` int(10) NOT NULL COMMENT '用户ID',
   `video_id` int(10) NOT NULL COMMENT '视频ID',
-  `comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
+  `content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
   `add_time` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of ac_video_comment
+-- ----------------------------
+INSERT INTO `ac_video_comment` VALUES (1, 0, 1, 3, '哈哈哈哈', '2019-02-26 17:11:13');
+INSERT INTO `ac_video_comment` VALUES (2, 0, 1, 3, '看我我的评论是你的幸运也是我的幸运', '2019-02-26 17:11:33');
+INSERT INTO `ac_video_comment` VALUES (3, 0, 1, 3, '挺好看的', '2019-02-26 17:11:33');
+INSERT INTO `ac_video_comment` VALUES (4, 0, 15, 3, '好看啊', '2019-02-26 17:11:33');
+INSERT INTO `ac_video_comment` VALUES (5, 0, 1, 3, '全是假的啊啊啊', '2019-02-26 17:12:50');
 
 SET FOREIGN_KEY_CHECKS = 1;

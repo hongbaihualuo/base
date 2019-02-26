@@ -4,7 +4,7 @@ namespace app\admin\controller;
 use app\admin\model\Carousel;
 use app\admin\model\Seo;
 use app\admin\model\System;
-use app\admin\service\ImageService;
+use app\admin\service\FileService;
 use app\admin\service\SetService;
 
 class Set extends Common
@@ -24,8 +24,8 @@ class Set extends Common
      */
     public function base_upload()
     {
-        $simage = new ImageService();
-        $data = $simage->upload_one();
+        $sfile = new FileService();
+        $data = $sfile->upload_one();
         die($data);
     }
 
