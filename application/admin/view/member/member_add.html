@@ -13,6 +13,14 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">
+                昵称
+            </label>
+            <div class="layui-input-block">
+                <input type="text" maxlength="32" name="nickname" lay-verify="nickname" placeholder="昵称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
                 <span class="x-red">*</span>类型
             </label>
             <div class="layui-input-block">
@@ -71,6 +79,15 @@
             <div class="layui-input-block">
                 <input type="radio" name="status" value="0" title="正常" checked="">
                 <input type="radio" name="status" value="1" title="停用">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                是否机器人
+            </label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_robot" value="0" title="否" checked="">
+                <input type="radio" name="is_robot" value="1" title="是">
             </div>
         </div>
         <div class="layui-form-item">

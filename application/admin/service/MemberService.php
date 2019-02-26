@@ -2,7 +2,6 @@
 namespace app\admin\service;
 
 
-use app\admin\controller\Member;
 use app\admin\model\User;
 use app\admin\model\UserInfo;
 use app\admin\model\UserType;
@@ -51,10 +50,12 @@ class MemberService extends Common
         $data = [
             'username'  => input('account'),
             'user_type'  => input('type'),
+            'nickname'  => input('nickname'),
             'mobile'  => input('mobile'),
             'money'  => input('money'),
             'score'  => input('score'),
-            'status'  => input('status') == 0 ? input('status') : 1
+            'status'  => input('status') == 0 ? input('status') : 1,
+            'is_robot' => input('is_robot') == 0 ? input('is_robot') : 1
         ];
 
         if (!$data['username'] ) return $this->cjson(1,'账号不能为空！');
@@ -84,6 +85,9 @@ class MemberService extends Common
                     }
                 }
                 $dataInfo = [
+                    'sex'=>input('sex'),
+                    'sign'=>input('sign'),
+                    'like'=>input('like'),
                     'real_name'=>input('real_name'),
                     'recom_code'=>input('recom_code'),
                     'reg_type'=>input('reg_type'),

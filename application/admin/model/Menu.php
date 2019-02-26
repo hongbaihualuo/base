@@ -9,7 +9,7 @@ class Menu extends Model{
      * @return false|\PDOStatement|string|\think\Collection
      */
     public function get_all_menu($where = "is_show = 0"){
-        $list = $this->where("parent_id = 0")->where($where)->select();
+        $list = $this->where("parent_id = 0 and status = 0")->where($where)->select();
         foreach ($list as $k => $v) {
             $list[$k]['child'] = $this->where("parent_id = {$v['menu_id']}")->where($where)->select();
             $list[$k]['url'] = 'javascript:;';
@@ -32,7 +32,7 @@ class Menu extends Model{
     public function get_menu($where='',$num=6,$page=0,$field='*')
     {
         $this->field($field)->alias('a')
-            ->where($where)->order('a.menu_id desc');
+            ->where('status = 0')->where($where)->order('a.menu_id desc');
 
         if (!$page) {
             $list = $this->limit($num)->select();

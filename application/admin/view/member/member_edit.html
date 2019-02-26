@@ -32,6 +32,25 @@
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">
+                    昵称
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" maxlength="32" name="nickname" lay-verify="nickname" value="{$detail.nickname}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">
+                    性别
+                </label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status" value="0" title="男" {if condition="$detail['sex'] == 0"} checked=""{/if}>
+                    <input type="radio" name="status" value="1" title="女" {if condition="$detail['sex'] == 1"} checked=""{/if}>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">
                     <span class="x-red">*</span>密码
                 </label>
                 <div class="layui-input-inline">
@@ -62,6 +81,24 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="number" min="1" name="score" lay-verify="score" placeholder="用户积分" value="{$detail.score}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">
+                    签名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" maxlength="200" name="sign" lay-verify="sign" value="{$detail.sign}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">
+                    爱好
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" maxlength="200" name="like" lay-verify="like" value="{$detail.like}" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -117,6 +154,13 @@
                 <div class="layui-input-inline">
                     <input type="text" name="source" lay-verify="source" placeholder="来源" value="{$detail.source}" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+            <label class="layui-form-label">
+                是否机器人
+            </label>
+            <div class="layui-input-inline">
+                <input type="radio" name="is_robot" value="0" title="否" {if condition="$detail['is_robot'] == 0"} selected {/if}>
+                <input type="radio" name="is_robot" value="1" title="是" {if condition="$detail['is_robot'] == 1"} selected {/if}>
             </div>
         </div>
 
