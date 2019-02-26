@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50553
  Source Host           : localhost:3306
- Source Schema         : admin
+ Source Schema         : video
 
  Target Server Type    : MySQL
  Target Server Version : 50553
  File Encoding         : 65001
 
- Date: 25/02/2019 18:27:19
+ Date: 26/02/2019 11:49:10
 */
 
 SET NAMES utf8mb4;
@@ -59,7 +59,7 @@ CREATE TABLE `ac_manage`  (
 -- Records of ac_manage
 -- ----------------------------
 INSERT INTO `ac_manage` VALUES (1, 'admin', '$2y$10$yq70Bqv5DELrtLpg9M.3MOH2HmU4i122tsA1MXkz7Jp.r/FKBlz3u', 1, '珀翡', '2019-02-22 16:09:54', 0);
-INSERT INTO `ac_manage` VALUES (2, 'taotao', '$2y$10$l6Yjg8G/TfIx6Xw78kc3qOZyoY3VA0MmGqh0z6anibPOXj1Cwe7AS', 4, '陶一鸣', '2019-02-23 10:49:48', 0);
+INSERT INTO `ac_manage` VALUES (2, 'taotao', '$2y$10$l6Yjg8G/TfIx6Xw78kc3qOZyoY3VA0MmGqh0z6anibPOXj1Cwe7AS', 3, '陶一鸣', '2019-02-23 10:49:48', 0);
 
 -- ----------------------------
 -- Table structure for ac_manage_group
@@ -77,9 +77,8 @@ CREATE TABLE `ac_manage_group`  (
 -- ----------------------------
 -- Records of ac_manage_group
 -- ----------------------------
-INSERT INTO `ac_manage_group` VALUES (1, '超级管理员', '超级管理员', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30', 0);
+INSERT INTO `ac_manage_group` VALUES (1, '超级管理员', '超级管理员', '11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39', 0);
 INSERT INTO `ac_manage_group` VALUES (3, '测试', '测试专员', '1,2,3,11,12,16,21', 0);
-INSERT INTO `ac_manage_group` VALUES (4, '测试2', '', '1,2,3,6,7,11,12,16,21,22,23,27', 0);
 
 -- ----------------------------
 -- Table structure for ac_manage_log
@@ -94,7 +93,7 @@ CREATE TABLE `ac_manage_log`  (
   `type` tinyint(1) NOT NULL DEFAULT 0 COMMENT '类型 0 登录 1 添加 2 修改 3 删除 4 其他',
   `add_time` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`manage_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of ac_manage_log
@@ -141,6 +140,12 @@ INSERT INTO `ac_manage_log` VALUES (39, '修改用户类型', '修改的用户�
 INSERT INTO `ac_manage_log` VALUES (40, '修改管理组', '修改的管理组为：测试2', 1, '127.0.0.1', 2, '2019-02-25 18:04:06');
 INSERT INTO `ac_manage_log` VALUES (41, '修改用户类型', '修改的用户类型为：普通用户', 1, '127.0.0.1', 2, '2019-02-25 18:16:09');
 INSERT INTO `ac_manage_log` VALUES (42, '修改管理组', '修改的管理组为：测试2', 1, '127.0.0.1', 2, '2019-02-25 18:22:33');
+INSERT INTO `ac_manage_log` VALUES (43, '修改用户类型', '修改的用户类型为：普通用户', 1, '127.0.0.1', 2, '2019-02-25 18:38:05');
+INSERT INTO `ac_manage_log` VALUES (44, '登录', '登录', 1, '127.0.0.1', 0, '2019-02-26 10:29:35');
+INSERT INTO `ac_manage_log` VALUES (45, '登录', '登录', 1, '127.0.0.1', 0, '2019-02-26 10:41:06');
+INSERT INTO `ac_manage_log` VALUES (46, '管理员信息修改', '修改了taotao的信息', 1, '127.0.0.1', 2, '2019-02-26 11:29:10');
+INSERT INTO `ac_manage_log` VALUES (47, '删除管理组', '删除的管理组为：测试2', 1, '127.0.0.1', 3, '2019-02-26 11:29:17');
+INSERT INTO `ac_manage_log` VALUES (48, '登录', '登录', 1, '127.0.0.1', 0, '2019-02-26 11:32:17');
 
 -- ----------------------------
 -- Table structure for ac_menu
@@ -154,42 +159,52 @@ CREATE TABLE `ac_menu`  (
   `controller` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '控制器名',
   `action` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '方法名',
   `is_show` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0 显示 1 不显示',
+  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0 启用 1 关闭',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ac_menu
 -- ----------------------------
-INSERT INTO `ac_menu` VALUES (1, 0, '&#xe6ae;', '系统设置', 'set', 'index', 0);
-INSERT INTO `ac_menu` VALUES (2, 1, '&#xe6ae;', '基本信息', 'set', 'base', 0);
-INSERT INTO `ac_menu` VALUES (3, 1, '&#xe75e;', '轮播图设置', 'set', 'carousel', 0);
-INSERT INTO `ac_menu` VALUES (4, 3, '', '轮播图添加', 'set', 'carousel_add', 1);
-INSERT INTO `ac_menu` VALUES (5, 3, '', '轮播图修改', 'set', 'carousel_edit', 1);
-INSERT INTO `ac_menu` VALUES (6, 3, '', '轮播图删除', 'set', 'carousel_delete', 1);
-INSERT INTO `ac_menu` VALUES (7, 1, '&#xe811;', 'seo设置', 'set', 'seo', 0);
-INSERT INTO `ac_menu` VALUES (8, 7, '', 'seo添加', 'set', 'seo_add', 1);
-INSERT INTO `ac_menu` VALUES (9, 7, '', 'seo修改', 'set', 'seo_edit', 1);
-INSERT INTO `ac_menu` VALUES (10, 7, '', 'seo删除', 'set', 'seo_delete', 1);
-INSERT INTO `ac_menu` VALUES (11, 0, '&#xe726;', '管理员', 'manager', 'index', 0);
-INSERT INTO `ac_menu` VALUES (12, 11, '&#xe6fa;', '管理员列表', 'manager', 'manager', 0);
-INSERT INTO `ac_menu` VALUES (13, 12, '', '管理员添加', 'manager', 'manager_add', 1);
-INSERT INTO `ac_menu` VALUES (14, 12, '', '管理员修改', 'manager', 'manager_edit', 1);
-INSERT INTO `ac_menu` VALUES (15, 12, '', '管理员删除', 'manager', 'manager_delete', 1);
-INSERT INTO `ac_menu` VALUES (16, 11, '&#xe6a9;', '管理组', 'manager', 'group', 0);
-INSERT INTO `ac_menu` VALUES (17, 16, '', '管理组添加', 'manager', 'group_add', 1);
-INSERT INTO `ac_menu` VALUES (18, 16, '', '管理组修改', 'manager', 'group_edit', 1);
-INSERT INTO `ac_menu` VALUES (19, 16, '', '管理组删除', 'manager', 'group_delete', 1);
-INSERT INTO `ac_menu` VALUES (20, 16, '', '管理组权限', 'manager', 'group_right_change', 1);
-INSERT INTO `ac_menu` VALUES (21, 11, '&#xe6a2;', '管理员日志', 'manager', 'log', 0);
-INSERT INTO `ac_menu` VALUES (22, 0, '&#xe6b8;', '用户管理', 'member', 'index', 0);
-INSERT INTO `ac_menu` VALUES (23, 22, '&#xe6fa;', '用户列表', 'member', 'member', 0);
-INSERT INTO `ac_menu` VALUES (24, 23, '', '用户添加', 'member', 'member_add', 1);
-INSERT INTO `ac_menu` VALUES (25, 23, '', '用户修改', 'member', 'member_edit', 1);
-INSERT INTO `ac_menu` VALUES (26, 23, '', '用户删除', 'member', 'member_delete', 1);
-INSERT INTO `ac_menu` VALUES (27, 22, '&#xe6a9;', '用户类型', 'member', 'type', 0);
-INSERT INTO `ac_menu` VALUES (28, 27, '', '用户类型添加', 'member', 'type_add', 1);
-INSERT INTO `ac_menu` VALUES (29, 27, '', '用户类型修改', 'member', 'type_edit', 1);
-INSERT INTO `ac_menu` VALUES (30, 27, '', '用户类型删除', 'member', 'type_delete', 1);
+INSERT INTO `ac_menu` VALUES (1, 0, '&#xe6ae;', '系统设置', 'set', 'index', 0, 1);
+INSERT INTO `ac_menu` VALUES (2, 1, '&#xe6ae;', '基本信息', 'set', 'base', 0, 1);
+INSERT INTO `ac_menu` VALUES (3, 1, '&#xe75e;', '轮播图设置', 'set', 'carousel', 0, 1);
+INSERT INTO `ac_menu` VALUES (4, 3, '', '轮播图添加', 'set', 'carousel_add', 1, 1);
+INSERT INTO `ac_menu` VALUES (5, 3, '', '轮播图修改', 'set', 'carousel_edit', 1, 1);
+INSERT INTO `ac_menu` VALUES (6, 3, '', '轮播图删除', 'set', 'carousel_delete', 1, 1);
+INSERT INTO `ac_menu` VALUES (7, 1, '&#xe811;', 'seo设置', 'set', 'seo', 0, 1);
+INSERT INTO `ac_menu` VALUES (8, 7, '', 'seo添加', 'set', 'seo_add', 1, 1);
+INSERT INTO `ac_menu` VALUES (9, 7, '', 'seo修改', 'set', 'seo_edit', 1, 1);
+INSERT INTO `ac_menu` VALUES (10, 7, '', 'seo删除', 'set', 'seo_delete', 1, 1);
+INSERT INTO `ac_menu` VALUES (11, 0, '&#xe726;', '管理员', 'manager', 'index', 0, 0);
+INSERT INTO `ac_menu` VALUES (12, 11, '&#xe6fa;', '管理员列表', 'manager', 'manager', 0, 0);
+INSERT INTO `ac_menu` VALUES (13, 12, '', '管理员添加', 'manager', 'manager_add', 1, 0);
+INSERT INTO `ac_menu` VALUES (14, 12, '', '管理员修改', 'manager', 'manager_edit', 1, 0);
+INSERT INTO `ac_menu` VALUES (15, 12, '', '管理员删除', 'manager', 'manager_delete', 1, 0);
+INSERT INTO `ac_menu` VALUES (16, 11, '&#xe6a9;', '管理组', 'manager', 'group', 0, 0);
+INSERT INTO `ac_menu` VALUES (17, 16, '', '管理组添加', 'manager', 'group_add', 1, 0);
+INSERT INTO `ac_menu` VALUES (18, 16, '', '管理组修改', 'manager', 'group_edit', 1, 0);
+INSERT INTO `ac_menu` VALUES (19, 16, '', '管理组删除', 'manager', 'group_delete', 1, 0);
+INSERT INTO `ac_menu` VALUES (20, 16, '', '管理组权限', 'manager', 'group_right_change', 1, 0);
+INSERT INTO `ac_menu` VALUES (21, 11, '&#xe6a2;', '管理员日志', 'manager', 'log', 0, 0);
+INSERT INTO `ac_menu` VALUES (22, 0, '&#xe6b8;', '用户管理', 'member', 'index', 0, 0);
+INSERT INTO `ac_menu` VALUES (23, 22, '&#xe6fa;', '用户列表', 'member', 'member', 0, 0);
+INSERT INTO `ac_menu` VALUES (24, 23, '', '用户添加', 'member', 'member_add', 1, 0);
+INSERT INTO `ac_menu` VALUES (25, 23, '', '用户修改', 'member', 'member_edit', 1, 0);
+INSERT INTO `ac_menu` VALUES (26, 23, '', '用户删除', 'member', 'member_delete', 1, 0);
+INSERT INTO `ac_menu` VALUES (27, 22, '&#xe6a9;', '用户类型', 'member', 'type', 0, 0);
+INSERT INTO `ac_menu` VALUES (28, 27, '', '用户类型添加', 'member', 'type_add', 1, 0);
+INSERT INTO `ac_menu` VALUES (29, 27, '', '用户类型修改', 'member', 'type_edit', 1, 0);
+INSERT INTO `ac_menu` VALUES (30, 27, '', '用户类型删除', 'member', 'type_delete', 1, 0);
+INSERT INTO `ac_menu` VALUES (31, 0, '&#xe6da;', '视频管理', 'videos', 'index', 0, 0);
+INSERT INTO `ac_menu` VALUES (32, 31, '&#xe6fa;', '视频列表', 'videos', 'videos', 0, 0);
+INSERT INTO `ac_menu` VALUES (33, 32, '', '视频添加', 'videos', 'videos_add', 1, 0);
+INSERT INTO `ac_menu` VALUES (34, 32, '', '视频修改', 'videos', 'videos_edit', 1, 0);
+INSERT INTO `ac_menu` VALUES (35, 32, '', '视频删除', 'videos', 'videos_delete', 1, 0);
+INSERT INTO `ac_menu` VALUES (36, 31, '&#xe6fa;', '评论管理', 'videos', 'comment', 0, 0);
+INSERT INTO `ac_menu` VALUES (37, 36, '', '评论修改', 'videos', 'comment_edit', 1, 0);
+INSERT INTO `ac_menu` VALUES (38, 36, '', '评论删除', 'videos', 'comment_delete', 1, 0);
+INSERT INTO `ac_menu` VALUES (39, 31, '&#xe6b2;', '评论添加', 'videos', 'comment_add', 0, 0);
 
 -- ----------------------------
 -- Table structure for ac_seo
@@ -248,6 +263,8 @@ CREATE TABLE `ac_user`  (
   `user_type` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户类型',
   `username` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户名',
   `password` char(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户密码',
+  `img` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户头像',
+  `nickname` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
   `mobile` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户手机号',
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户状态0 启用 1停用',
   `money` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '用户金额',
@@ -256,6 +273,7 @@ CREATE TABLE `ac_user`  (
   `add_ip` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '添加ip',
   `last_time` datetime NOT NULL COMMENT '最后登录时间',
   `last_ip` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '最后登录ip',
+  `is_robot` tinyint(1) NOT NULL DEFAULT 0 COMMENT '机器人 0 否 1是',
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `mobile`(`mobile`) USING BTREE,
   INDEX `user_type`(`user_type`) USING BTREE,
@@ -265,8 +283,8 @@ CREATE TABLE `ac_user`  (
 -- ----------------------------
 -- Records of ac_user
 -- ----------------------------
-INSERT INTO `ac_user` VALUES (1, 1, 'xlolic', '$2y$10$ZHfAGra1zY4sB3zjmGI9PeudjfA.msbLZmWQdFvfb0BrwKd82wDZW', '', 0, 0.00, 0.00, '2019-02-25 13:26:34', '127.0.0.1', '2019-02-25 13:26:34', '127.0.0.1');
-INSERT INTO `ac_user` VALUES (15, 1, 'lolicc', '$2y$10$8.xrai6xDPpz8ZbwZvPwCeVrxz0OGo1KHWPif/Wss196V5PxSvDL6', '15255562449', 0, 0.00, 0.00, '2019-02-25 15:39:22', '127.0.0.1', '2019-02-25 15:39:22', '127.0.0.1');
+INSERT INTO `ac_user` VALUES (1, 1, 'xlolic', '$2y$10$ZHfAGra1zY4sB3zjmGI9PeudjfA.msbLZmWQdFvfb0BrwKd82wDZW', '', '', '', 1, 0.00, 0.00, '2019-02-25 13:26:34', '127.0.0.1', '2019-02-25 13:26:34', '127.0.0.1', 0);
+INSERT INTO `ac_user` VALUES (15, 1, 'lolicc', '$2y$10$8.xrai6xDPpz8ZbwZvPwCeVrxz0OGo1KHWPif/Wss196V5PxSvDL6', '', '', '15255562449', 1, 0.00, 0.00, '2019-02-25 15:39:22', '127.0.0.1', '2019-02-25 15:39:22', '127.0.0.1', 0);
 
 -- ----------------------------
 -- Table structure for ac_user_info
@@ -275,6 +293,9 @@ DROP TABLE IF EXISTS `ac_user_info`;
 CREATE TABLE `ac_user_info`  (
   `user_info_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `user_id` int(10) NOT NULL COMMENT '用户ID',
+  `sex` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户性别 0 男 1 女',
+  `sign` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '签名',
+  `like` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '爱好',
   `real_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '真实姓名',
   `idcard` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '身份证号码',
   `qq_openid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'QQ登录接入码',
@@ -289,8 +310,8 @@ CREATE TABLE `ac_user_info`  (
 -- ----------------------------
 -- Records of ac_user_info
 -- ----------------------------
-INSERT INTO `ac_user_info` VALUES (1, 1, '', '', '', '', 0, '', 0, '0');
-INSERT INTO `ac_user_info` VALUES (4, 15, '陶陶', '', '', '', 2121, '', 0, '后台添加');
+INSERT INTO `ac_user_info` VALUES (1, 1, 0, '', '', '', '', '', '', 0, '', 0, '0');
+INSERT INTO `ac_user_info` VALUES (4, 15, 0, '', '', '陶陶', '', '', '', 2121, '', 0, '后台添加');
 
 -- ----------------------------
 -- Table structure for ac_user_type
@@ -307,6 +328,37 @@ CREATE TABLE `ac_user_type`  (
 -- ----------------------------
 -- Records of ac_user_type
 -- ----------------------------
-INSERT INTO `ac_user_type` VALUES (1, '普通用户', '普通用户', 0);
+INSERT INTO `ac_user_type` VALUES (1, '普通用户', '普通用户', 1);
+
+-- ----------------------------
+-- Table structure for ac_video
+-- ----------------------------
+DROP TABLE IF EXISTS `ac_video`;
+CREATE TABLE `ac_video`  (
+  `video_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增',
+  `user_id` int(10) NOT NULL COMMENT '用户ID',
+  `title` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '标题',
+  `url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '视频连接',
+  `good` int(10) NOT NULL DEFAULT 0 COMMENT '好评数',
+  `bad` int(10) NOT NULL DEFAULT 0 COMMENT '差评数',
+  `add_time` datetime NOT NULL COMMENT '添加时间',
+  `send_num` int(10) NOT NULL DEFAULT 0 COMMENT '转发数',
+  `status` tinyint(1) NOT NULL COMMENT '0 启用 1 禁用',
+  PRIMARY KEY (`video_id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for ac_video_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `ac_video_comment`;
+CREATE TABLE `ac_video_comment`  (
+  `id` int(10) NOT NULL COMMENT '自增ID',
+  `parent_id` int(10) NOT NULL COMMENT '父ID',
+  `user_id` int(10) NOT NULL COMMENT '用户ID',
+  `video_id` int(10) NOT NULL COMMENT '视频ID',
+  `comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
+  `add_time` datetime NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
