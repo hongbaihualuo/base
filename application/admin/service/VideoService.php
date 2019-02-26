@@ -141,7 +141,7 @@ class VideoService extends Common
      */
     public function comment_add()
     {
-        $title = input('title');
+        $id = input('id');
         $num = input('num');
 
         $video = new Video();
@@ -149,7 +149,7 @@ class VideoService extends Common
         $videoComment = new VideoComment();
         $user = new User();
 
-        $check = $video->get_video("title = '{$title}'",1);
+        $check = $video->get_video("video_id = '{$id}'",1);
         if (count($check)<=0) return $this->cjson(1,'找不到相应视频！');
 
         $templet = $commentTemplet->get_templet('',500,0,'a.content');
@@ -163,7 +163,7 @@ class VideoService extends Common
         foreach($random_keys as $k=>$v) {
             $key = array_rand($user,1);
             $data[$k]['user_id'] = $user[$key]['user_id'];
-            $data[$k]['video_id'] = $check[0]['video_id'];
+            $data[$k]['video_id'] = $id;
             $data[$k]['content'] = $templet[$v]['content'];
             $data[$k]['add_time'] = date('Y-m-d H:i:s');
         }
