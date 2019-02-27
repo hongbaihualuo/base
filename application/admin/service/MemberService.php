@@ -5,11 +5,11 @@ namespace app\admin\service;
 use app\admin\model\User;
 use app\admin\model\UserInfo;
 use app\admin\model\UserType;
+use app\api\model\Video;
 use think\image\Exception;
 
 class MemberService extends Common
 {
-
     /**
      * 用户列表页搜索
      * @return string
@@ -58,7 +58,7 @@ class MemberService extends Common
             'is_robot' => input('is_robot') == 0 ? input('is_robot') : 1
         ];
 
-        if (!$data['username'] ) return $this->cjson(1,'账号不能为空！');
+        if (!$data['mobile'] ) return $this->cjson(1,'手机号不能为空！');
         if (!is_numeric($data['user_type']) ) return $this->cjson(1,'类型错误！');
         if (!$id && input('cpassword') != input('password')) return $this->cjson(1,'两次密码输入不一致！');
 
@@ -66,8 +66,8 @@ class MemberService extends Common
         $user = new User();
         $userInfo = new UserInfo();
 
-        $check_user = $user->get_user("username = '{$data['username']}' or mobile = '{$data['mobile']}'",1);
-        if (!$id && count($check_user)>0 ) return $this->cjson(1,'账号或手机号已存在！');
+        $check_user = $user->get_user("mobile = '{$data['mobile']}'",1);
+        if (!$id && count($check_user)>0 ) return $this->cjson(1,'手机号已存在！');
         if ( input('password') ) $data['password'] = password_hash(input('password'), PASSWORD_DEFAULT);
 
 

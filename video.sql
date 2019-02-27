@@ -11,7 +11,7 @@
  Target Server Version : 50553
  File Encoding         : 65001
 
- Date: 26/02/2019 17:22:36
+ Date: 27/02/2019 17:57:39
 */
 
 SET NAMES utf8mb4;
@@ -112,7 +112,7 @@ CREATE TABLE `ac_manage_log`  (
   `type` tinyint(1) NOT NULL DEFAULT 0 COMMENT '类型 0 登录 1 添加 2 修改 3 删除 4 其他',
   `add_time` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`manage_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 85 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of ac_manage_log
@@ -193,6 +193,14 @@ INSERT INTO `ac_manage_log` VALUES (73, '管理员信息修改', '修改了xloli
 INSERT INTO `ac_manage_log` VALUES (74, '批量添加评论', '添加的视频为测试', 1, '127.0.0.1', 1, '2019-02-26 17:12:50');
 INSERT INTO `ac_manage_log` VALUES (75, '删除评论', '删除评论', 1, '127.0.0.1', 3, '2019-02-26 17:13:02');
 INSERT INTO `ac_manage_log` VALUES (76, '评论修改', '修改了测试的信息', 1, '127.0.0.1', 2, '2019-02-26 17:21:36');
+INSERT INTO `ac_manage_log` VALUES (77, '批量添加评论', '添加的视频为测试', 1, '127.0.0.1', 1, '2019-02-26 17:38:26');
+INSERT INTO `ac_manage_log` VALUES (78, '登录', '登录', 1, '127.0.0.1', 0, '2019-02-27 09:49:55');
+INSERT INTO `ac_manage_log` VALUES (79, '上传文件', '文件路径:/uploads/video/20190227/fe89c5bbe17c40e312dabff0a1004219.mp4', 1, '127.0.0.1', 1, '2019-02-27 09:50:45');
+INSERT INTO `ac_manage_log` VALUES (80, '添加视频', '添加了我的办公室视频', 1, '127.0.0.1', 1, '2019-02-27 09:50:50');
+INSERT INTO `ac_manage_log` VALUES (81, '删除视频', '删除视频', 1, '127.0.0.1', 3, '2019-02-27 17:33:47');
+INSERT INTO `ac_manage_log` VALUES (82, '删除视频', '删除视频', 1, '127.0.0.1', 3, '2019-02-27 17:33:54');
+INSERT INTO `ac_manage_log` VALUES (83, '上传文件', '文件路径:/uploads/video/20190227/0e8607ba4e3d538a2d6add40062bcc55.mp4', 1, '127.0.0.1', 1, '2019-02-27 17:38:23');
+INSERT INTO `ac_manage_log` VALUES (84, '添加视频', '添加了ceshi视频', 1, '127.0.0.1', 1, '2019-02-27 17:38:25');
 
 -- ----------------------------
 -- Table structure for ac_menu
@@ -317,6 +325,8 @@ CREATE TABLE `ac_user`  (
   `nickname` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户昵称',
   `mobile` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户手机号',
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户状态0 启用 1停用',
+  `qq_openid` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'QQID',
+  `wx_openid` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '微信ID',
   `money` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '用户金额',
   `score` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '用户积分',
   `add_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
@@ -328,13 +338,14 @@ CREATE TABLE `ac_user`  (
   UNIQUE INDEX `mobile`(`mobile`) USING BTREE,
   INDEX `user_type`(`user_type`) USING BTREE,
   INDEX `status`(`status`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of ac_user
 -- ----------------------------
-INSERT INTO `ac_user` VALUES (1, 1, 'xlolic', '$2y$10$938SiKe2WXp7IocgQEbsfO3Qp0rVwqNAdNKwmozTckXsLtvdZzWIG', '', 'admin', '', 0, 0.00, 0.00, '2019-02-25 13:26:34', '127.0.0.1', '2019-02-25 13:26:34', '127.0.0.1', 1);
-INSERT INTO `ac_user` VALUES (15, 1, 'lolicc', '$2y$10$.Yihei7S1T4a2N5dEcXjTeeFwUnPqOpdWj2J7SPTCtPMo4qZ1n9Ly', '', 'admin', '15255562449', 0, 0.00, 0.00, '2019-02-25 15:39:22', '127.0.0.1', '2019-02-25 15:39:22', '127.0.0.1', 1);
+INSERT INTO `ac_user` VALUES (1, 1, 'xlolic', '$2y$10$938SiKe2WXp7IocgQEbsfO3Qp0rVwqNAdNKwmozTckXsLtvdZzWIG', '', 'admin', '15255562448', 0, '', '', 0.00, 0.00, '2019-02-25 13:26:34', '127.0.0.1', '2019-02-25 13:26:34', '127.0.0.1', 1);
+INSERT INTO `ac_user` VALUES (15, 1, 'lolicc', '$2y$10$.Yihei7S1T4a2N5dEcXjTeeFwUnPqOpdWj2J7SPTCtPMo4qZ1n9Ly', '', 'hahah', '15255562447', 0, '', '', 0.00, 0.00, '2019-02-25 15:39:22', '127.0.0.1', '2019-02-27 12:03:54', '127.0.0.1', 1);
+INSERT INTO `ac_user` VALUES (16, 1, '', '$2y$10$NzjEM/E6/l9qBq.K38rcsOXLMbV4MjdrD7zIH1s8gRua/buRu/uBG', '', '1645', '18855410026', 0, '', '', 0.00, 0.00, '2019-02-27 15:30:47', '127.0.0.1', '2019-02-27 15:30:47', '127.0.0.1', 0);
 
 -- ----------------------------
 -- Table structure for ac_user_info
@@ -348,20 +359,37 @@ CREATE TABLE `ac_user_info`  (
   `like` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '爱好',
   `real_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '真实姓名',
   `idcard` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '身份证号码',
-  `qq_openid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'QQ登录接入码',
-  `wx_openid` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '微信登录接入码',
   `recom_code` smallint(5) NOT NULL DEFAULT 0 COMMENT '邀请码',
   `phone_sign` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '手机标识码',
   `reg_type` tinyint(1) NOT NULL DEFAULT 0 COMMENT '注册类型 0web 1wap 2安卓 3IOS',
   `source` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '来源',
   PRIMARY KEY (`user_info_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of ac_user_info
 -- ----------------------------
-INSERT INTO `ac_user_info` VALUES (1, 1, 0, '', '', '', '', '', '', 0, '', 0, '0');
-INSERT INTO `ac_user_info` VALUES (4, 15, 0, '', '', '陶陶', '', '', '', 2121, '', 0, '后台添加');
+INSERT INTO `ac_user_info` VALUES (1, 1, 0, '', '', '', '', 0, '', 0, '0');
+INSERT INTO `ac_user_info` VALUES (4, 15, 1, '人不作就不会死', '玩游戏', '陶陶', '', 2121, '', 0, '后台添加');
+INSERT INTO `ac_user_info` VALUES (5, 16, 0, '', '', '', '', 0, '', 0, '');
+
+-- ----------------------------
+-- Table structure for ac_user_login
+-- ----------------------------
+DROP TABLE IF EXISTS `ac_user_login`;
+CREATE TABLE `ac_user_login`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `user_id` int(10) NOT NULL COMMENT '登录ID',
+  `token` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '登录token',
+  `add_time` datetime NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of ac_user_login
+-- ----------------------------
+INSERT INTO `ac_user_login` VALUES (1, 15, '$2y$10$GaNTBVUNYVWE7b/lDygrwucN/SbQdJiO1hBd1CurcFppkMMczDZLe', '2019-02-27 12:03:54');
+INSERT INTO `ac_user_login` VALUES (2, 0, '$2y$10$NzjEM/E6/l9qBq.K38rcsOXLMbV4MjdrD7zIH1s8gRua/buRu/uBG', '2019-02-27 15:30:47');
 
 -- ----------------------------
 -- Table structure for ac_user_type
@@ -395,12 +423,13 @@ CREATE TABLE `ac_video`  (
   `send_num` int(10) NOT NULL DEFAULT 0 COMMENT '转发数',
   `status` tinyint(1) NOT NULL COMMENT '0 启用 1 禁用',
   PRIMARY KEY (`video_id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ac_video
 -- ----------------------------
-INSERT INTO `ac_video` VALUES (3, 1, '测试', '/uploads/video/20190226/2972d10406b37a2fb63a4389366a5fe1.mp4', 2, 3, '2019-02-26 15:27:08', 1, 0);
+INSERT INTO `ac_video` VALUES (3, 1, '我的公司大家庭', '/uploads/video/20190226/2972d10406b37a2fb63a4389366a5fe1.mp4', 2, 3, '2019-02-26 15:27:08', 1, 0);
+INSERT INTO `ac_video` VALUES (4, 15, '我的办公室', '/uploads/video/20190227/fe89c5bbe17c40e312dabff0a1004219.mp4', 0, 0, '2019-02-27 09:50:50', 0, 0);
 
 -- ----------------------------
 -- Table structure for ac_video_comment
@@ -414,7 +443,7 @@ CREATE TABLE `ac_video_comment`  (
   `content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
   `add_time` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ac_video_comment
@@ -422,7 +451,10 @@ CREATE TABLE `ac_video_comment`  (
 INSERT INTO `ac_video_comment` VALUES (1, 0, 1, 3, '哈哈哈哈', '2019-02-26 17:11:13');
 INSERT INTO `ac_video_comment` VALUES (2, 0, 1, 3, '看我我的评论是你的幸运也是我的幸运', '2019-02-26 17:11:33');
 INSERT INTO `ac_video_comment` VALUES (3, 0, 1, 3, '挺好看的', '2019-02-26 17:11:33');
-INSERT INTO `ac_video_comment` VALUES (4, 0, 15, 3, '好看啊', '2019-02-26 17:11:33');
+INSERT INTO `ac_video_comment` VALUES (4, 0, 15, 3, '笑死我了哈', '2019-02-26 17:11:33');
 INSERT INTO `ac_video_comment` VALUES (5, 0, 1, 3, '全是假的啊啊啊', '2019-02-26 17:12:50');
+INSERT INTO `ac_video_comment` VALUES (8, 0, 15, 3, '哈哈哈哈', '2019-02-26 17:38:26');
+INSERT INTO `ac_video_comment` VALUES (9, 0, 1, 3, '看我我的评论是你的幸运也是我的幸运', '2019-02-26 17:38:26');
+INSERT INTO `ac_video_comment` VALUES (10, 0, 15, 3, '挺好看的', '2019-02-26 17:38:26');
 
 SET FOREIGN_KEY_CHECKS = 1;
