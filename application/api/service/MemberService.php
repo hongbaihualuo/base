@@ -3,6 +3,7 @@ namespace app\api\service;
 
 
 use app\api\model\User;
+use app\api\model\UserCollet;
 use app\api\model\UserInfo;
 use app\api\model\UserLogin;
 use app\api\model\Video;
@@ -16,14 +17,16 @@ class MemberService extends Common
      */
     public function add_good ($video_id)
     {
-        if (!$video_id)  return $this->cjson(2,'未找到该视频！');
+        if (!$video_id)  return $this->cjson(1,'未找到该视频！');
 
         $video = new Video();
 
         $videoInfo = $video->get($video_id);
-        if (!$videoInfo)   return $this->cjson(3,'未找到该视频！');
+        if (!$videoInfo)   return $this->cjson(1,'未找到该视频！');
+        if (time()-Session::get('good_time') < 23*3600) return $this->cjson(1,'您已经执行过此操作了！');
 
         if ($video->save(['good'=>$videoInfo['good']+1],[])) {
+            Session::set('good_time',time());
             return $this->cjson(0,'点赞成功！');
         } else {
             return $this->cjson(1,'点赞失败！');
@@ -41,6 +44,7 @@ class MemberService extends Common
 
         $videoInfo = $video->get($video_id);
         if (!$videoInfo)   return $this->cjson(1,'未找到该视频！');
+        if (time()-Session::get('bad_time') < 23*3600) return $this->cjson(1,'您已经执行过此操作了！');
 
         if ($video->save(['bad'=>$videoInfo['bad']+1],[])) {
             return $this->cjson(0,'踩成功！');
@@ -60,6 +64,7 @@ class MemberService extends Common
 
         $videoInfo = $video->get($video_id);
         if (!$videoInfo)   return $this->cjson(1,'未找到该视频！');
+        if (time()-Session::get('send_time') < 23*3600) return $this->cjson(1,'您已经执行过此操作了！');
 
         if ($video->save(['send_num'=>$videoInfo['send_num']+1],[])) {
             return $this->cjson(0,'添加成功！');
@@ -192,6 +197,63 @@ class MemberService extends Common
             return $this->cjson(0,'修改成功');
         } else {
             return $this->cjson(1,'修改失败');
+        }
+    }
+
+    /**
+     * 视频搜索
+     */
+    public function collet_search(){
+
+        $user_id = input("user_id");
+        $userCollet = new UserCollet();
+        $list = $userCollet->get_collet("a.user_id = {$user_id}",10,1);
+
+        $data['list'] = $list;
+        $data['page'] = $list->render();
+        $data['count'] = $userCollet->get_collet_count("a.user_id = {$user_id}");
+
+        return $this->cjson(0,'请求成功',$data);
+    }
+
+    /**
+     * 用户收藏
+     */
+    public function collet_add()
+    {
+        $video_id = input('video_id');
+        $user_id = input('user_id');
+
+        $userCollet = new UserCollet();
+
+        $data = [
+            'video_id' => $video_id,
+            'user_id' => $user_id,
+            'add_time' => date('Y-m-d H:i:s')
+        ];
+
+        if ($userCollet->save($data)) {
+            return $this->cjson(0,'添加成功');
+        } else {
+            return $this->cjson(1,'添加失败');
+        }
+
+    }
+
+    /**
+     * 收藏删除
+     */
+    public function collet_delete()
+    {
+        $collet_id = input('collet_id');
+        $user_id = input('user_id');
+
+        if (!UserCollet::get(['id'=>$collet_id,'user_id'=>$user_id])) return $this->cjson(1,'不存在此收藏');;
+
+        if (UserCollet::destroy($collet_id)) {
+            return $this->cjson(0,'删除成功');
+        } else {
+            return $this->cjson(1,'删除失败');
         }
     }
 }

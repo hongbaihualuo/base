@@ -1,6 +1,7 @@
 <?php
 namespace app\api\controller;
 
+use app\api\model\UserCollet;
 use app\api\service\Common;
 use app\api\service\MemberService;
 use app\api\service\VideoService;
@@ -134,6 +135,36 @@ class User extends Common{
     {
         $svideo = new VideoService();
         $data = $svideo->comment_delete();
+        die($data);
+    }
+
+    /**
+     * 用户收藏
+     */
+    public function get_user_collet()
+    {
+        $smember = new MemberService();
+        $data = $smember->collet_search();
+        die($data);
+    }
+
+    /**
+     * 添加收藏
+     */
+    public function user_collet_add()
+    {
+        $smember = new MemberService();
+        $data = $smember->collet_add();
+        die($data);
+    }
+
+    /**
+     * 收藏删除
+     */
+    public function user_collet_delete()
+    {
+        $smember = new MemberService();
+        $data = $smember->collet_delete();
         die($data);
     }
 }
