@@ -23,6 +23,8 @@ class LoginService extends Common {
         Session::set('mobile',$mobile);
         Session::set('mobile_code',$rand);
         Session::set('mobile_code_time',time());
+
+        if ( time() - Session::get('msg_send_time') < 60) return $this->cjson(1,'请求频率过快！');
         $ssend = new SendService();
         return $ssend->send_msg($mobile,$msg);
     }
