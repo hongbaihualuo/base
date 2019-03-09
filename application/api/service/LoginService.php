@@ -67,8 +67,9 @@ class LoginService extends Common {
         if ($code != $check_login['code']) return $this->cjson(1,'验证码错误');
 
         $check = $user->get_user("mobile = '{$mobile}'",1,0,'a.user_id,a.nickname,a.img,a.status');
-        if ($check[0]['status'] == 1) return $this->cjson(1,'账号已停用！');
         if (count($check) <= 0 ) return $this->cjson(1,'账号不存在！');
+        if ($check[0]['status'] == 1) return $this->cjson(1,'账号已停用！');
+
 
         $token = password_hash($mobile,PASSWORD_DEFAULT);
 
