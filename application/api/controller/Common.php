@@ -14,7 +14,7 @@ class Common extends Controller{
 
         $userLogin = new UserLogin();
 
-        if ($userLogin->get(['token'=>$token,'user_id'=>$user_id])) {
+        if (!$userLogin->get(['token'=>$token,'user_id'=>$user_id])) {
             die($this->cjson(2,'登录信息失效，请重新登录！'));
         }
 

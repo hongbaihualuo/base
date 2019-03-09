@@ -24,7 +24,23 @@ class LoginService extends Common {
         Session::set('mobile_code',$rand);
         Session::set('mobile_code_time',time());
 
-        if ( time() - Session::get('msg_send_time') < 60) return $this->cjson(1,'请求频率过快！');
+        $userLogin = new UserLogin();
+        $check_login = $userLogin->get(["mobile"=>$mobile]);
+
+        if ( $check_login && time() - strtotime($check_login['add_time']) < 60) return $this->cjson(1,'请求频率过快！');
+        $data = [
+            'mobile' => $mobile,
+            'code'  => $rand,
+            'add_time' => date('Y-m-d H:i:s')
+        ];
+
+        if ($check_login) {
+            $result = $userLogin->save($data,['mobile'=>$mobile]);
+        } else {
+            $result = $userLogin->save($data);
+        }
+        if (!$result)  return $this->cjson(1,'短信发送失败，请重新发送！');
+
         $ssend = new SendService();
         return $ssend->send_msg($mobile,$msg);
     }
@@ -38,14 +54,17 @@ class LoginService extends Common {
         $mobile = input('mobile');
         $code = input('code');
 
-        if (!$mobile) return $this->cjson(1,'手机号不能为空');
-        if ($mobile != Session::get('mobile')) return $this->cjson(1,'请使用发送验证码的手机号登录');
-        if (!$code) return $this->cjson(1,'验证码不能为空');
-        if (time()-Session::get('mobile_code_time') > 600) return $this->cjson(1,'验证码错误');
-        if ($code != Session::get('mobile_code')) return $this->cjson(1,'验证码错误');
-
         $user = new User();
         $userLogin = new UserLogin();
+
+        $check_login = $userLogin->get(["mobile"=>$mobile]);
+        if ( $check_login && time() - strtotime($check_login['add_time']) < 60) return $this->cjson(1,'请求频率过快！');
+
+        if (!$mobile) return $this->cjson(1,'手机号不能为空');
+        if (!$code) return $this->cjson(1,'验证码不能为空');
+        if (!$check_login) return $this->cjson(1,'验证码储存错误，请重新发送验证码！');
+        if (time() - strtotime($check_login['add_time']) > 600) return $this->cjson(1,'验证码已过期');
+        if ($code != $check_login['code']) return $this->cjson(1,'验证码错误');
 
         $check = $user->get_user("mobile = '{$mobile}'",1,0,'a.user_id,a.nickname,a.img,a.status');
         if ($check[0]['status'] == 1) return $this->cjson(1,'账号已停用！');
@@ -56,16 +75,14 @@ class LoginService extends Common {
         $user->save(['last_ip'=>request()->ip(),'last_time'=>date('Y-m-d H:i:s')],["user_id"=>$check[0]['user_id']]);
         $data = [
             'user_id' => $check[0]['user_id'],
-            'token' => $token,
-            'add_time' => date('Y-m-d H:i:s')
+            'token' => $token
         ];
-        $check_login = $userLogin->get(["user_id"=>$check[0]['user_id']]);
-        if ($check_login) {
-            $userLogin->save($data,['user_id'=>$check[0]['user_id']]);
+        if ($userLogin->save($data,['mobile'=>$mobile])){
+            return $this->cjson(0,'登录成功',['token'=>$token,'list'=>$check[0]]);
         } else {
-            $userLogin->save($data);
+            return $this->cjson(1,'token存储失败');
         }
 
-        return $this->cjson(0,'登录成功',['token'=>$token,'list'=>$check[0]]);
+
     }
 }
