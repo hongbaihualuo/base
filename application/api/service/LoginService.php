@@ -58,7 +58,7 @@ class LoginService extends Common {
         $userLogin = new UserLogin();
 
         $check_login = $userLogin->get(["mobile"=>$mobile]);
-        if ( $check_login && time() - strtotime($check_login['add_time']) < 60) return $this->cjson(1,'请求频率过快！');
+        //if ( $check_login && time() - strtotime($check_login['add_time']) < 60) return $this->cjson(1,'请求频率过快！');
 
         if (!$mobile) return $this->cjson(1,'手机号不能为空');
         if (!$code) return $this->cjson(1,'验证码不能为空');
