@@ -109,6 +109,7 @@ class MemberService extends Common
             'nickname'  =>rand(100000,999999),
             'add_time'  => date('Y-m-d H:i:s'),
             'add_ip'  => request()->ip(),
+            'user_type'  => 1,
             'last_time'  => date('Y-m-d H:i:s'),
             'last_ip'  => request()->ip(),
         ];
