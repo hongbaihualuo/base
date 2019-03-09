@@ -58,7 +58,6 @@ class LoginService extends Common {
         $userLogin = new UserLogin();
 
         $check_login = $userLogin->get(["mobile"=>$mobile]);
-        //if ( $check_login && time() - strtotime($check_login['add_time']) < 60) return $this->cjson(1,'请求频率过快！');
 
         if (!$mobile) return $this->cjson(1,'手机号不能为空');
         if (!$code) return $this->cjson(1,'验证码不能为空');
@@ -67,23 +66,25 @@ class LoginService extends Common {
         if ($code != $check_login['code']) return $this->cjson(1,'验证码错误');
 
         $check = $user->get_user("mobile = '{$mobile}'",1,0,'a.user_id,a.nickname,a.img,a.status');
-        if (count($check) <= 0 ) return $this->cjson(1,'账号不存在！');
-        if ($check[0]['status'] == 1) return $this->cjson(1,'账号已停用！');
-
-
-        $token = password_hash($mobile,PASSWORD_DEFAULT);
-
-        $user->save(['last_ip'=>request()->ip(),'last_time'=>date('Y-m-d H:i:s')],["user_id"=>$check[0]['user_id']]);
-        $data = [
-            'user_id' => $check[0]['user_id'],
-            'token' => $token
-        ];
-        if ($userLogin->save($data,['mobile'=>$mobile])){
-            return $this->cjson(0,'登录成功',['token'=>$token,'list'=>$check[0]]);
+        if (count($check) <= 0 ) {
+            $smember = new MemberService();
+            return $smember->member_add();
         } else {
-            return $this->cjson(1,'token存储失败');
-        }
+            if ($check[0]['status'] == 1) return $this->cjson(1,'账号已停用！');
 
+            $token = password_hash($mobile,PASSWORD_DEFAULT);
+
+            $user->save(['last_ip'=>request()->ip(),'last_time'=>date('Y-m-d H:i:s')],["user_id"=>$check[0]['user_id']]);
+            $data = [
+                'user_id' => $check[0]['user_id'],
+                'token' => $token
+            ];
+            if ($userLogin->save($data,['mobile'=>$mobile])){
+                return $this->cjson(0,'登录成功',['token'=>$token,'list'=>$check[0]]);
+            } else {
+                return $this->cjson(1,'token存储失败');
+            }
+        }
 
     }
 }
