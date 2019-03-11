@@ -44,12 +44,12 @@ class VideoService extends Common
     {
 
         $sfile = new FileService();
-        $video = $sfile->upload_video_one();
+        $video = $sfile->base_upload_img('video',2);
         if(!$video) return $this->cjson(1,'视频上传失败！');
 
         $data = [
             'title'  => input('title'),
-            'url'  => $video,
+            'url'  => substr($video,1),
             'user_id'  => input('user_id'),
             'add_time' => date('Y-m-d H:i:s'),
         ];

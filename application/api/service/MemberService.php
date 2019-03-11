@@ -189,12 +189,12 @@ class MemberService extends Common
     public function member_img($user_id)
     {
         $sfile = new FileService();
-        $img = $sfile->upload_one();
+        $img = $sfile->base_upload_img('img',1);
 
         if (!$img) return $this->cjson(1,'上传失败');
 
         $data = [
-            'img'  => $img,
+            'img'  => substr($img,1),
         ];
 
         $user = new User();
