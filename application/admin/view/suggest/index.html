@@ -1,0 +1,25 @@
+{extend name="public/base"}
+{block name="meta"}{/block}
+{block name="content"}
+<div class="x-body">
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>意见内容</th>
+            <th>QQ</th>
+            <th>手机号</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="data.list" id="v"}
+        <tr>
+            <td>{$v.content}</td>
+            <td>{$v.qq}</td>
+            <td>{$v.mobile}</td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    {$data.page}
+</div>
+{/block}

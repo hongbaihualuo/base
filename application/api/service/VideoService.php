@@ -2,6 +2,7 @@
 namespace app\api\service;
 
 
+use app\api\model\Suggest;
 use app\api\model\User;
 use app\api\model\Video;
 use app\api\model\VideoComment;
@@ -193,5 +194,32 @@ class VideoService extends Common
         } else {
             return $this->cjson(1,'执行失败');
         }
+    }
+
+
+    /**
+     * 建议添加
+     */
+    public function suggest_add()
+    {
+
+        $data = [
+            'content'  => input('content'),
+            'qq'  => input('qq'),
+            'mobile' => input('mobile'),
+            'add_time' => date('Y-m-d H:i:s'),
+        ];
+
+        if (!$data['content'] ) return $this->cjson(1,'内容不能为空！');
+        if (!$data['qq'] && !$data['mobile']) return $this->cjson(1,'请留下您的联系方式！');
+
+        $suggest = new Suggest();
+
+        if ($suggest->save($data)) {
+            return $this->cjson(0,'添加成功');
+        } else {
+            return $this->cjson(1,'添加失败');
+        }
+
     }
 }

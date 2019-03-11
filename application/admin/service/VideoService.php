@@ -3,6 +3,7 @@ namespace app\admin\service;
 
 
 use app\admin\model\CommentTemplet;
+use app\admin\model\Suggest;
 use app\admin\model\User;
 use app\admin\model\Video;
 use app\admin\model\VideoComment;
@@ -248,5 +249,20 @@ class VideoService extends Common
         } else {
             return $this->cjson(1,'执行失败');
         }
+    }
+
+    /**
+     * 意见反馈
+     */
+    public function suggest_search(){
+
+        $suggest = new Suggest();
+        $list = $suggest->get_suggest('',10,1);
+
+        $data['list'] = $list;
+        $data['page'] = $list->render();
+        $data['count'] = $suggest->get_suggest_count('');
+
+        return $data;
     }
 }
