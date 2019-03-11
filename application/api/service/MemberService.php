@@ -93,11 +93,14 @@ class MemberService extends Common
         $mobile = input('mobile');
         $code = input('code');
 
+        $userLogin = new UserLogin();
+        $check_login = $userLogin->get(["mobile"=>$mobile]);
         if (!$mobile) return $this->cjson(1,'手机号不能为空');
-        if ($mobile != Session::get('mobile')) return $this->cjson(1,'请使用发送验证码的手机号注册');
         if (!$code) return $this->cjson(1,'验证码不能为空');
-        if (time()-Session::get('mobile_code_time') > 600) return $this->cjson(1,'验证码错误');
-        if ($code != Session::get('mobile_code')) return $this->cjson(1,'验证码错误');
+        if (!$check_login) return $this->cjson(1,'验证码储存错误，请重新发送验证码！');
+        if (time() - strtotime($check_login['add_time']) > 600) return $this->cjson(1,'验证码已过期');
+        if ($code != $check_login['code']) return $this->cjson(1,'验证码错误');
+
         $token = password_hash($mobile,PASSWORD_DEFAULT);
 
         $data = [
@@ -106,6 +109,7 @@ class MemberService extends Common
             'nickname'  =>rand(100000,999999),
             'add_time'  => date('Y-m-d H:i:s'),
             'add_ip'  => request()->ip(),
+            'user_type'  => 1,
             'last_time'  => date('Y-m-d H:i:s'),
             'last_ip'  => request()->ip(),
         ];
@@ -119,24 +123,26 @@ class MemberService extends Common
 
         $user->startTrans();
         $userInfo->startTrans();
-
+        $userLogin->startTrans();
         try{
             $user->save($data);
             $user_id = $user->getLastInsID();
             $userInfo->save(['user_id'=>$user->getLastInsID()]);
-            $user->commit();
-            $userInfo->commit();
+
 
             $dataLogin = [
                 'user_id' => $user_id,
-                'token' => $token,
-                'add_time' => date('Y-m-d H:i:s')
+                'token' => $token
             ];
-            $userLogin->save($dataLogin);
+            $userLogin->save($dataLogin,['mobile'=>$mobile]);
+            $user->commit();
+            $userInfo->commit();
+            $userLogin->commit();
             return $this->cjson(0,'添加成功',['token'=>$token,'list'=>['user_id'=>$user_id,'nickname'=>$data['nickname'],'img'=>'','status'=>0]]);
         }catch(Exception $e){
             $user->rollback();
             $userInfo->rollback();
+            $userLogin->rollback();
             return $this->cjson(1,'执行失败');
         }
     }

@@ -8,7 +8,7 @@ class SendService extends Common {
     const msg_appid = 'C94364327';
     const msg_appkey = '4aa9c616609e90d7040581d14ee5241f';
     const msg_send_time = 50;
-    const msg_send_num = 5;
+    const msg_send_num = 30;
     const msg_black_time = 600;
     const msg_url = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
     const msg_send_limit = 1;
