@@ -10,12 +10,17 @@ class Video extends Model
      * 获取用户
      * @return false|\PDOStatement|string|\think\Collection
      */
-    public function get_video($where='',$num=6,$page=0,$field='a.*,u.username,count(vc.id) as comment_num,count(uc.id) as collet_num')
+    public function get_video($where='',$num=6,$page=0,$field='')
     {
+		if (!$field) {
+			$field='a.*,u.nickname as username,
+					(select count(vc.id) from ac_video_comment vc where vc.video_id = a.video_id) as comment_num,
+					(select count(uc.id) from ac_user_collet uc where uc.video_id = a.video_id) as collet_num';
+		}
         $this->field($field)->alias('a')
             ->join('ac_user u','a.user_id = u.user_id','LEFT')
-            ->join('ac_video_comment vc','vc.video_id = a.video_id','LEFT')
-            ->join('ac_user_collet uc','uc.user_id = a.user_id','LEFT')
+            //->join('ac_video_comment  vc','vc.video_id = a.video_id','LEFT')
+            //->join('ac_user_collet uc','uc.user_id = a.user_id','LEFT')
             ->where($where)->order('a.video_id desc,a.good desc,a.bad asc');
 
         if (!$page) {

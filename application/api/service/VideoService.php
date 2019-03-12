@@ -31,7 +31,7 @@ class VideoService extends Common
         $list = $video->get_video($where,10,1);
 
         $data['list'] = $list;
-        $data['page'] = $list->render();
+        //$data['page'] = $list->render();
         $data['count'] = $video->get_video_count($where);
 
         return $this->cjson(0,'请求成功',$data);
